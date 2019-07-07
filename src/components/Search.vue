@@ -1,13 +1,25 @@
 <template>
   <div id="cont">
-    <h1>Search</h1>
+     <div class="col s12"> <h1>Search</h1></div>
     <ul v-for="usr of user" :key="usr.id">
-      <li>{{usr.id}}</li>
-      <li>{{usr.name}}</li>
-      <li>{{usr.password}}</li>
-      <li>{{usr.email}}</li>
-      <li>{{usr.telefone}}</li>
-      <li>{{usr.name_account}}</li>
+      <div class="col s12 m8 offset-m2 l6 offset-l3">
+        <div class="card-panel grey lighten-5 z-depth-1">
+          <div class="row valign-wrapper">
+            <div class="col s2">
+              
+            </div>
+            <div class="col s10">
+              <span class="black-text">
+              <li>{{usr.name_account}}</li>
+              <li>{{usr.name}}</li>
+              <li>{{usr.email}}</li>
+              <li>{{usr.telefone}}</li>
+  
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </ul>
   </div>
