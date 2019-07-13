@@ -1,5 +1,5 @@
 import { http } from "./config";
-
+const querystring = require('querystring');
 
 export default{
 
@@ -10,7 +10,7 @@ export default{
 
     add: (user) => {
         
-        return http.post('api/user/add', user, { useCredentails: true })
+        return http.post('user/add', querystring.stringify(user), { useCredentails: true })
     }
 
 }

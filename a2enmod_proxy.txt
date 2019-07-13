@@ -1,0 +1,51 @@
+a2enmod proxy
+a2enmod proxy_http
+a2enmod proxy_wstunner
+a2enmod rewrite
+a2enmod proxy_balancer
+a2enmod proxy_connect
+a2enmod proxy_html
+
+
+000-default.conf
+
+
+<VirtualHost *:80>
+	ServerName app.local
+	ServerAlias app.local
+	
+	ProxyRequests off
+
+	# Isso é mágica, não sei porque funciona
+	RewriteEngine on
+	RewriteCond %{HTTP:UPGRADE} ^websocket$ [NC]
+	RewriteCond %{HTTP:CONNECTION} Upgrade [NC]
+	RewriteRule .* ws://localhost:8080%{REQUEST_URI} [P]
+	# fim da mágica
+
+	<Proxy *>
+		Order deny,allow
+		Allow from all
+	</Proxy>
+
+	<Location /sockjs-node/>
+		ProxyPass http://localhost:8080/sockjs-node/
+		ProxyPassReverse http://localhost:8080/sockjs-node/
+	</Location>
+
+	<Location /api/>
+		ProxyPass http://localhost:3000/
+		ProxyPassReverse http://localhost:3000/
+	</Location>
+
+	<Location /app/>
+		ProxyPass http://localhost:8080/app/
+		ProxyPassReverse http://localhost:8080/app/
+	</Location>
+
+
+	ErrorLog ${APACHE_LOG_DIR}/error.log
+	CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+</VirtualHost>
+
